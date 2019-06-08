@@ -59,10 +59,10 @@ App = {
       mapProjectInstance = instance;
       console.log(instance);
 
-      return mapProjectInstance.getTotalReward().call();
+      return mapProjectInstance.getTotalReward();
     })
     .then(function(value){
-      console.log(value);
+      console.log(value.toNumber());
     })
     .catch(function(err){
       console.dir(err);

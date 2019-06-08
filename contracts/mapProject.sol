@@ -8,6 +8,8 @@ contract mapProject{
     struct Post{
         address posterAddress;
         string imageHash;
+        string ipAddressHash;
+        int[4] geoCoordinate;
     }
 
     event newPostAdded(address posterAdrress, string imageHash);
@@ -24,11 +26,15 @@ contract mapProject{
     }
 
     // set new post to project
-    function addPost(address _posterAdrress, string memory _imageHash) public {
+    function addPost(address _posterAdrress, string memory _imageHash, string memory _ipAddressHash, int[] memory _geoCoordinate) public {
         Post memory newpost;
 
         newpost.posterAddress = _posterAdrress;
         newpost.imageHash = _imageHash;
+        newpost.ipAddressHash = _ipAddressHash;
+        for(uint i = 0; i < _geoCoordinate.length; i ++){
+            newpost.geoCoordinate[i] = _geoCoordinate[i];
+        }
 
         Posts.push(newpost);
 
