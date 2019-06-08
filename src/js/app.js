@@ -5,7 +5,6 @@ App = {
 
   init: async function() {
     
-
     return await App.initWeb3();
   },
 
@@ -40,8 +39,6 @@ App = {
       App.contracts.mapProject = TruffleContract(mapProjectArtifact);
       App.contracts.mapProject.setProvider(App.web3Provider);
 
-      console.log(App.contracts.mapProject);
-
     });
 
     return App.bindEvents();
@@ -49,14 +46,14 @@ App = {
 
   bindEvents: function() {
     $('#totalReward').click(function(){
-      var totalReward = App.getTotalReward();
-      console.log('clicked');
-      console.log(totalReward);
+      App.getTotalReward();
     });
 
     $('#addnewcontract').click(function (){
-      var newContract = App.createNewProject();
-      console.log(newContract);
+      var rewardVal = Number($("input[type=text][name=rewardVal]").val());
+      if(rewardVal){
+        App.createNewProject(rewardVal);
+      }
     });
   },
 
@@ -73,13 +70,12 @@ App = {
     });
   },
 
-  createNewProject : function (){
-    App.contracts.mapProject.new(1000).then(function(inst){
+  createNewProject : function (rewardValue){
+    App.contracts.mapProject.new(rewardValue).then(function(inst){
       var newMapProInst = inst;
 
-      console.log(newMapProInst);
-
-      // console.log("new contract address : " + newMapProInst.address);
+      App.contractAddress = newMapProInst.address;
+      console.log(App.contractAddress);
 
       return newMapProInst.address;
     });

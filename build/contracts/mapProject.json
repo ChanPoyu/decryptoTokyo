@@ -5764,10 +5764,16 @@
       "links": {},
       "address": "0x3f503D71C3fB3f25FC41d0C61db45B7D98ECFC97",
       "transactionHash": "0xe6ad669a0772bac939c1dbe78b2842a85402696ebdd99651996229a55261bc34"
+    },
+    "1559993699585": {
+      "events": {},
+      "links": {},
+      "address": "0xa8E756231C4E3461fA0A2a524e076ED1414F3eD3",
+      "transactionHash": "0x7bcd984769b091860cb393b5a670c99a46fbb175cdb1fcda116149f0d7405d9f"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-06-08T10:32:31.774Z",
+  "updatedAt": "2019-06-08T11:36:43.440Z",
   "devdoc": {
     "methods": {}
   },
