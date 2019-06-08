@@ -61,7 +61,7 @@ App = {
 
   getTotalReward : function(contractAddress){
 
-    var mapProjectInstance = await App.contracts.mapProject.at(contractAddress);
+    var mapProjectInstance = App.contracts.mapProject.at(contractAddress);
     
     mapProjectInstance.getTotalReward()
     .then(function(value){
@@ -73,9 +73,15 @@ App = {
   },
 
   createNewProject : function (){
-    var newContract = await App.contracts.mapProject.new(1000);
+    App.contracts.mapProject.new(1000).then(function(inst){
+      var newMapProInst = inst;
 
-    return newContract.address;
+      // console.log("new contract address : " + newMapProInst.address);
+
+      return newMapProInst.address;
+    });
+
+    
   }
 
 };
