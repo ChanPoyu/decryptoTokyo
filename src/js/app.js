@@ -77,9 +77,11 @@ App = {
     App.contracts.mapProject.new(1000).then(function(inst){
       var newMapProInst = inst;
 
+      console.log(newMapProInst);
+
       // console.log("new contract address : " + newMapProInst.address);
 
-      return newMapProInst;
+      return newMapProInst.address;
     });
 
     
