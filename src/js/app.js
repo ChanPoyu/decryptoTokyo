@@ -52,21 +52,30 @@ App = {
       console.log('clicked');
       console.log(totalReward);
     });
+
+    $('#addnewcontract').click(function (){
+      var newContract = App.createNewProject();
+      console.log(newContract);
+    });
   },
 
-  getTotalReward : function(){
-    App.contracts.mapProject.deployed().then(function(instance){
-      mapProjectInstance = instance;
-      console.log(instance);
+  getTotalReward : function(contractAddress){
 
-      return mapProjectInstance.getTotalReward();
-    })
+    var mapProjectInstance = await App.contracts.mapProject.at(contractAddress);
+    
+    mapProjectInstance.getTotalReward()
     .then(function(value){
       console.log(value.toNumber());
     })
     .catch(function(err){
       console.dir(err);
     });
+  },
+
+  createNewProject : function (){
+    var newContract = await App.contracts.mapProject.new(1000);
+
+    return newContract.address;
   }
 
 };
