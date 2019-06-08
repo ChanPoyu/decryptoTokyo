@@ -1,6 +1,7 @@
 App = {
   web3Provider: null,
   contracts: {},
+  contractAddress: "",
 
   init: async function() {
     
@@ -59,9 +60,9 @@ App = {
     });
   },
 
-  getTotalReward : function(contractAddress){
+  getTotalReward : function(){
 
-    var mapProjectInstance = App.contracts.mapProject.at(contractAddress);
+    var mapProjectInstance = App.contracts.mapProject.at(App.contractAddress);
     
     mapProjectInstance.getTotalReward()
     .then(function(value){
@@ -78,7 +79,7 @@ App = {
 
       // console.log("new contract address : " + newMapProInst.address);
 
-      return newMapProInst.address;
+      return newMapProInst;
     });
 
     
