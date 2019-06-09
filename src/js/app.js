@@ -69,8 +69,19 @@ App = {
     });
   },
 
-  createNewProject : function (rewardValue){
-    App.contracts.mapProject.new(rewardValue).then(function(inst){
+  createNewProject : function (rewardValue, coord){
+
+    var geoString = String(coord);
+    var geoStringArr = geoString.split(',');
+    var temp = [];
+    geoStringArr.forEach(str => temp.push(str.split('.')));
+    var parsedGeoArr = [];
+    for (var i = 0; i < 2; i ++){
+      parsedGeoArr.push(temp[i][0]);
+      parsedGeoArr.push(temp[i][1]);
+    }
+
+    App.contracts.mapProject.new(rewardValue, parsedGeoArr).then(function(inst){
       var newMapProInst = inst;
 
       App.contractAddress = newMapProInst.address;
@@ -104,55 +115,69 @@ App = {
 
   addPost : function(contractAddress, posterAddress, imageHash, ipAddress, geoCoordinate){
     
-    // var parsedCoor = String(geoCoordinate);
-    // .then(function(geoString){
-    //   return geoString.split(',');
-    // })
-    // .then(function(geoString){
-      
-    //   var temp = [];
-    //   geoString.forEach(str => temp.push(str.split('.')));
-
-    //   for (var i = 0; i < 2; i ++){
-    //     geoArr.push(temp[i][0]);
-    //     geoArr.push(temp[i][1]);
-    //   }
-    //   return geoArr = [];
-    // })
+    var geoString = String(geoCoordinate);
+    var geoStringArr = geoString.split(',');
+    var temp = [];
+    geoStringArr.forEach(str => temp.push(str.split('.')));
+    var parsedGeoArr = [];
+    for (var i = 0; i < 2; i ++){
+      parsedGeoArr.push(temp[i][0]);
+      parsedGeoArr.push(temp[i][1]);
+    }
     
     var mapProjectInstance = App.contracts.mapProject.at(contractAddress);
-
-    mapProjectInstance.addPost(posterAddress, imageHash, ipAddress, parsedCoor)
-    .then(function(tx){
-
-      if(tx){
-        /* handle tx send to db
-
-      $.ajax({
-        url : '',
-        type : '',
-        data : {
-
-        }
-      })
-      .success(function(data){
-
-      })
-      .fail(function(err){
-
-      })
-      .always(function(){
-
-      });
-       */
-
-      console.log(tx);
+    var length = 0;
+    mapProjectInstance.getContractGeoCoord()
+    .then(function(data){
+      var coord = [];
+      var geoCord = [];
+      for(var i = 0; i < 4; i ++){
+        coord.push(String(data[i].toNumer()));
       }
+      geoCord.push(Number(coord[0] + "." + coord[1]));
+      geoCord.push(Number(coord[2] + "." + coord[3]));
+
+      length = 5;
       
     })
-    .catch(function(err){
 
-    });
+    if(length >= 10){
+      return;
+    }else{
+      amapProjectInstance.addPost(posterAddress, imageHash, ipAddress, parsedGeoArr)
+      .then(function(tx){
+
+        if(tx){
+          /* handle tx send to db
+
+        $.ajax({
+          url : '',
+          type : '',
+          data : {
+
+          }
+        })
+        .success(function(data){
+
+        })
+        .fail(function(err){
+
+        })
+        .always(function(){
+
+        });
+        */
+
+        console.log(tx);
+        }
+        
+      })
+      .catch(function(err){
+
+      });
+    }
+    
+    
 
   }
 
