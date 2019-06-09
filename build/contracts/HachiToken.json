@@ -884,10 +884,16 @@
       "links": {},
       "address": "0x13CE72028A02b6a264415815344B716BF85E8C21",
       "transactionHash": "0x890e8a6a3f03c55f6145f3ecbffc0651cdb97686697d21692c43f9cf02307f9e"
+    },
+    "1560044059667": {
+      "events": {},
+      "links": {},
+      "address": "0xf468E5b466de492ffa2Ad327fc356Ef2E2d942E3",
+      "transactionHash": "0x1ff484b4fd8a5eefed87485341746bdc7c30d122149fbb4f0fdab7ce4596f3f7"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-06-09T00:59:48.641Z",
+  "updatedAt": "2019-06-09T01:34:36.825Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

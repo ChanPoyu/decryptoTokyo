@@ -7,6 +7,7 @@ contract mapProject is HachiToken{
     address owner;
     uint private totalReward;
     uint[4] private contractGeoCoord;
+    mapping (address => uint) countPosterPosts;
 
     struct Post{
         address posterAddress;
@@ -17,6 +18,8 @@ contract mapProject is HachiToken{
 
     event newPostAdded(address posterAdrress, string imageHash);
     event postDeleted(bool isDeleted);
+    event newPoster(address posterAdrress);
+    event rewardPayed(uint averageAmount, uint toPosterNum);
 
     Post[] Posts;
 
@@ -36,7 +39,16 @@ contract mapProject is HachiToken{
         mint(owner, totalReward);
     }
 
-    // set new post to project
+    // getter methods
+    function getTotalReward () public view returns(uint){
+        return totalReward;
+    }
+
+    function getContractGeoCoord () public view returns(uint[4] memory){
+        return contractGeoCoord;
+    }
+
+    // setter methods
     function addPost(address _posterAdrress, string memory _imageHash, string memory _ipAddressHash, int[] memory _geoCoordinate) public {
         Post memory newpost;
 
@@ -49,47 +61,35 @@ contract mapProject is HachiToken{
 
         Posts.push(newpost);
 
+        bool userPosted = checkAddressPosted(_posterAdrress);
+
+        if(!userPosted){
+            posterAdrressArr.push(_posterAdrress);
+            emit newPoster(_posterAdrress);
+        }
+
         emit newPostAdded(newpost.posterAddress, newpost.imageHash);
     }
 
-    // get total reward
-    function getTotalReward () public view returns(uint){
-        return totalReward;
-    }
-
-    function getContractGeoCoord () public view returns(uint[4] memory){
-        return contractGeoCoord;
-    }
+    
 
     // reward methods
     function payReward() private {
-        
-       bool addressExist = false;
-
-       for(uint i = 0; i < Posts.length; i++){
-            for(uint j = 0; j < posterAdrressArr.length; j ++){
-                if(Posts[i].posterAddress == posterAdrressArr[j]){
-                    addressExist = true;
-                }
-            }
-            if(addressExist == false){
-                posterAdrressArr.push(Posts[i].posterAddress);
-            }
-        }
 
         uint256 averageReward = div(totalReward, posterAdrressArr.length);
-
         // reward send to poster
         sendReward(posterAdrressArr, averageReward);
-
         deletePost();
+
+        emit rewardPayed(averageReward, posterAdrressArr.length);
     }
 
+
+    // helper methods
     function deletePost() private {
         delete Posts;
         emit postDeleted(Posts.length == 0);
     }
-    
     
     // save math from open zepplin
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -107,4 +107,11 @@ contract mapProject is HachiToken{
         }
     }
 
+    function checkAddressPosted(address _poster) private view returns(bool){
+        if(countPosterPosts[_poster] == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
