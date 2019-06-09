@@ -1435,12 +1435,18 @@
     "1559993699585": {
       "events": {},
       "links": {},
-      "address": "0x56D040066410bc2d96b9D3544238205B4EB61309",
-      "transactionHash": "0x8b836bd13a1da2cb15f0073c2ab0f0133e68d6bb5795e16a9c2485701dc3275a"
+      "address": "0xD4923467B11b32259a91390D552979E1c5854143",
+      "transactionHash": "0xecd2bb0996cded97a2649214e618c0323752cc0a3b54a3dabc20588394cc3930"
+    },
+    "1560038701276": {
+      "events": {},
+      "links": {},
+      "address": "0x26B0144622e89036d7C2D6c0223689aCDa0805e3",
+      "transactionHash": "0x5d8c42c0f44bc9ea43aaa72f304a96bfc2e3f5a99a18c52750dc58051e623c4a"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-06-08T11:36:43.437Z",
+  "updatedAt": "2019-06-09T00:09:16.644Z",
   "devdoc": {
     "methods": {}
   },

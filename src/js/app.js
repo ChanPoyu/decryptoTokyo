@@ -1,7 +1,6 @@
 App = {
   web3Provider: null,
   contracts: {},
-  contractAddress: "",
 
   init: async function() {
     
@@ -57,9 +56,9 @@ App = {
     });
   },
 
-  getTotalReward : function(){
+  getTotalReward : function(contractAddress){
 
-    var mapProjectInstance = App.contracts.mapProject.at(App.contractAddress);
+    var mapProjectInstance = App.contracts.mapProject.at(contractAddress);
     
     mapProjectInstance.getTotalReward()
     .then(function(value){
@@ -77,10 +76,84 @@ App = {
       App.contractAddress = newMapProInst.address;
       console.log(App.contractAddress);
 
+      /******* 
+       add logic to store contract address to database  
+
+       $.ajax({
+         url : '',
+         type : '',
+         data : {
+
+         }
+       })
+       .done(function(data){
+
+       })
+       .fail(function(err){
+
+       })
+       .always(function(){
+
+       });
+       *********************/
+
       return newMapProInst.address;
     });
 
+  },
+
+  addPost : function(contractAddress, posterAddress, imageHash, ipAddress, geoCoordinate){
     
+    // var parsedCoor = String(geoCoordinate);
+    // .then(function(geoString){
+    //   return geoString.split(',');
+    // })
+    // .then(function(geoString){
+      
+    //   var temp = [];
+    //   geoString.forEach(str => temp.push(str.split('.')));
+
+    //   for (var i = 0; i < 2; i ++){
+    //     geoArr.push(temp[i][0]);
+    //     geoArr.push(temp[i][1]);
+    //   }
+    //   return geoArr = [];
+    // })
+    
+    var mapProjectInstance = App.contracts.mapProject.at(contractAddress);
+
+    mapProjectInstance.addPost(posterAddress, imageHash, ipAddress, parsedCoor)
+    .then(function(tx){
+
+      if(tx){
+        /* handle tx send to db
+
+      $.ajax({
+        url : '',
+        type : '',
+        data : {
+
+        }
+      })
+      .success(function(data){
+
+      })
+      .fail(function(err){
+
+      })
+      .always(function(){
+
+      });
+       */
+
+      console.log(tx);
+      }
+      
+    })
+    .catch(function(err){
+
+    });
+
   }
 
 };

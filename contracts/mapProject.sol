@@ -1,9 +1,12 @@
 pragma solidity ^0.5.0;
+import './HachiToken.sol';
 
-contract mapProject{
+
+contract mapProject is HachiToken{
 
     address owner;
-    uint public totalReward;
+    uint private totalReward;
+    uint[4] private contractGeoCoord;
 
     struct Post{
         address posterAddress;
@@ -20,9 +23,17 @@ contract mapProject{
     address[] posterAdrressArr;
 
     // constructor
-    constructor (uint _totalReward) public {
+    constructor (uint _totalReward, uint[] memory _coord) public {
         totalReward = _totalReward;
+        
+        for(uint i = 0; i < 4; i ++){
+            contractGeoCoord[i] = _coord[i];
+        } 
+        
         owner = msg.sender;
+
+        approve(owner, totalReward);
+        mint(owner, totalReward);
     }
 
     // set new post to project
@@ -42,13 +53,16 @@ contract mapProject{
     }
 
     // get total reward
-
     function getTotalReward () public view returns(uint){
         return totalReward;
     }
 
+    function getContractGeoCoord () public view returns(uint[4] memory){
+        return contractGeoCoord;
+    }
+
     // reward methods
-    function payReward() public {
+    function payReward() private {
         
        bool addressExist = false;
 
@@ -63,15 +77,15 @@ contract mapProject{
             }
         }
 
-        // uint256 averageReward = div(totalReward, posterAdrressArr.length);
+        uint256 averageReward = div(totalReward, posterAdrressArr.length);
 
         // reward send to poster
-        // sendReward(averageReward);
+        sendReward(posterAdrressArr, averageReward);
 
         deletePost();
     }
 
-    function deletePost() internal {
+    function deletePost() private {
         delete Posts;
         emit postDeleted(Posts.length == 0);
     }
@@ -87,8 +101,10 @@ contract mapProject{
         return c;
     }
 
-    // function sendReward(address[] _posterAdrressArr) internal {
-        
-    // }
+    function sendReward(address[] memory _posterAdrressArr, uint256 _rewardAmount) internal {
+        for(uint i = 0; i < _posterAdrressArr.length; i ++){
+            transferFrom(owner, _posterAdrressArr[i], _rewardAmount);
+        }
+    }
 
 }
